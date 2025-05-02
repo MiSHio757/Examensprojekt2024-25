@@ -1,0 +1,33 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+.env
+*.pkl
+
+# Node
+node_modules/
+dist/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+.yarn
+
+# OS specific
+.DS_Store
+Thumbs.db
+
+# IDE specific
+.vscode/
+.idea/
+
+# Build artifacts
+*.log
+*.pot
+*.pyc
+
+# Data (om stora filer som inte ska versionshanteras)
+# backend/data/raw/*.csv 
+# backend/data/processed/*.csv
+# backend/models_ml/*.joblib 
