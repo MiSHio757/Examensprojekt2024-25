@@ -1,5 +1,5 @@
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from typing import Optional
 
 # Grundläggande fält som delas av flera schemas
@@ -18,7 +18,6 @@ class TeamUpdate(TeamBase):
 # Schema för att läsa ett lag (data som skickas ut från API)
 class TeamRead(TeamBase):
     id: int
+    model_config = ConfigDict(from_attributes = True)
 
  
-    class Config:
-         orm_mode = True 
