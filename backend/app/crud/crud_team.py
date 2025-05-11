@@ -25,3 +25,24 @@ async def create_team(db: AsyncSession, team: TeamCreate) -> Team:
     await db.commit() 
     await db.refresh(db_team) 
     return db_team
+# Funktion för att updatera ett lag
+async def update_team(
+   db: AsyncSession,
+   db_team: Team, 
+   team_in: TeamUpdate     
+) -> Team:
+    """
+    Uppdatera ett existerande lag.
+    """
+
+    update_data = team_in.model_dump(exclude_unset=True)
+
+    # Går igenom fälten i update_data o uppdatera db_team objektet
+    for field, value in update_data.items():
+        setattr(db_team, field, value)
+
+    
+    db.add(db_team)
+    await db.commit()
+    await db.refresh(db_team)
+    return db_team
