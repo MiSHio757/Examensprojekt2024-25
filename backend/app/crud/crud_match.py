@@ -60,3 +60,35 @@ async def get_matches(
     )
     result = await db.execute(stmt)
     return result.scalars().all()
+
+async def update_match(
+    db: AsyncSession, 
+    db_match: Match, 
+    match_in: MatchUpdate 
+) -> Match:
+    """
+    Uppdatera en existerande match.
+    """
+    update_data = match_in.model_dump(exclude_unset=True)
+    
+    for field, value in update_data.items():
+        setattr(db_match, field, value)
+            
+    db.add(db_match)
+    await db.commit()
+    await db.refresh(db_match)
+    await db.refresh(db_match, attribute_names=['home_team', 'away_team'])
+    return db_match 
+
+async def delete_match(db: AsyncSession, match_id: int) -> Optional[Match]:
+    """
+    Radera en match från databasen baserat på dess ID.
+    Returnerar det raderade matchobjektet om det hittades, annars None.
+    """
+    db_match = await get_match(db=db, match_id=match_id) 
+    if db_match:
+        await db.delete(db_match) 
+        await db.commit()        
+        
+        return db_match 
+    return None 
